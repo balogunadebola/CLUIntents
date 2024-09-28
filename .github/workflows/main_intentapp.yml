@@ -14,24 +14,27 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: 'Checkout GitHub Action'
       - uses: actions/checkout@v4
 
-      - name: Set up .NET Core
+      - name: Set up .NET Core SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
+      - name: 'Restore Dependencies'
+        run: dotnet restore
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: 'Build the App'
+        run: dotnet build --configuration Release --no-restore
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      - name: 'Publish the App'
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Publish --no-restore
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: 'dotnet-app'
+          path: ${{env.DOTNET_ROOT}}/publish
 
   deploy:
     runs-on: windows-latest
@@ -61,5 +64,5 @@ jobs:
         with:
           app-name: 'IntentApp'
           slot-name: 'Production'
-          package: .
+          package: ${{env.DOTNET_ROOT}}/publish
           
