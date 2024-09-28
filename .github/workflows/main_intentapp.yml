@@ -24,10 +24,10 @@ jobs:
       - name: 'Restore Dependencies'
         run: dotnet restore
 
-      - name: 'Build the App'
+      - name: dotnet build
         run: dotnet build --configuration Release --no-restore
 
-      - name: 'Publish the App'
+      - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Publish --no-restore
 
       - name: Upload artifact for deployment job
