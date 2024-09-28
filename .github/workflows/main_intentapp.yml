@@ -25,16 +25,16 @@ jobs:
         run: dotnet restore
 
       - name: dotnet build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release 
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Publish --no-restore
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/CLUIntentBot.csproj
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: 'dotnet-app'
-          path: ${{env.DOTNET_ROOT}}/publish
+          path: ${{env.DOTNET_ROOT}}/CLUIntentBot.csproj
 
   deploy:
     runs-on: windows-latest
@@ -64,5 +64,5 @@ jobs:
         with:
           app-name: 'IntentApp'
           slot-name: 'Production'
-          package: ${{env.DOTNET_ROOT}}/publish
+          package: .
           
