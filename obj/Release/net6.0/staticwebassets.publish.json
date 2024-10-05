@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "Tgo9sN2yoFz8gOmC0oZCtdRIxSrOp62O3D47Zl5Wwdg=",
+  "Source": "CLUIntentBot",
+  "BasePath": "_content/CLUIntentBot",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "CLUIntentBot\\wwwroot",
+      "Source": "CLUIntentBot",
+      "ContentRoot": "C:\\Users\\adebo\\source\\repos\\CLUIntentBot\\CLUIntentBot\\wwwroot\\",
+      "BasePath": "_content/CLUIntentBot",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\adebo\\source\\repos\\CLUIntentBot\\CLUIntentBot\\wwwroot\\default.htm",
+      "SourceId": "CLUIntentBot",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\adebo\\source\\repos\\CLUIntentBot\\CLUIntentBot\\wwwroot\\",
+      "BasePath": "_content/CLUIntentBot",
+      "RelativePath": "default.htm",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\default.htm"
+    }
+  ]
+}

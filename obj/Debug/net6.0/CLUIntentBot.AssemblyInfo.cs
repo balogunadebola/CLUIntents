@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CLUIntentBot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb9c7dbc8ccaa77c5a7076d1b54ecda282724254")]
 [assembly: System.Reflection.AssemblyProductAttribute("CLUIntentBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CLUIntentBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -35,36 +35,85 @@ namespace CLUIntentBot.Bots
         }
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var data = new
+            try
             {
-                analysisInput = new
+                var data = new
                 {
-                    conversationItem = new
+                    analysisInput = new
                     {
-                        text = turnContext.Activity.Text,
-                        id = "1",
-                        participantId = "1",
-                    }
-                },
-                parameters = new
+                        conversationItem = new
+                        {
+                            text = turnContext.Activity.Text,
+                            id = "1",
+                            participantId = "1",
+                        }
+                    },
+                    parameters = new
+                    {
+                        projectName = _cluProjectName,
+                        deploymentName = _cluDeploymentName,
+                        stringIndexType = "Utf16CodeUnit",
+                    },
+                    kind = "Conversation",
+                };
+                Response response = _conversationsClient.AnalyzeConversation(RequestContent.Create(data));
+
+                JsonDocument result = JsonDocument.Parse(response.ContentStream);
+                JsonElement conversationalTaskResult = result.RootElement;
+                JsonElement orchestrationPrediction = conversationalTaskResult.GetProperty("result").GetProperty("prediction");
+
+                string topIntent = orchestrationPrediction.GetProperty("topIntent").ToString();
+
+                JsonElement intents = orchestrationPrediction.GetProperty("intents");
+
+                double confidenceScore = 0.0;
+
+                foreach (JsonElement intentElement in intents.EnumerateArray())
                 {
-                    projectName = _cluProjectName,
-                    deploymentName = _cluDeploymentName,
-                    stringIndexType = "Utf16CodeUnit",
-                },
-                kind = "Conversation",
-            };
-            Response response = _conversationsClient.AnalyzeConversation(RequestContent.Create(data));
+                    string intentName = intentElement.GetProperty("category").GetString();
+                    if (intentName == topIntent)
+                    {
+                        confidenceScore = intentElement.GetProperty("confidenceScore").GetDouble();
+                        break;
+                    }
+                }
+                //Confidence Threshold
+                double confidenceThreshold = 0.5;
 
-            JsonDocument result = JsonDocument.Parse(response.ContentStream);
-            JsonElement conversationalTaskResult = result.RootElement;
-            JsonElement orchestrationPrediction = conversationalTaskResult.GetProperty("result").GetProperty("prediction");
+                //Check if the confidence is below the threshold or the Intent is 'None'
+                if (topIntent.Equals("None", StringComparison.OrdinalIgnoreCase) || confidenceScore < confidenceThreshold)
+                {
+                    await turnContext.SendActivityAsync(
+                        MessageFactory.Text("Sorry, I didn't quite get your question. Please try asking in a different way (Intent was none)."),
+                        cancellationToken
+                        );
+                    //Add a delay of 2 seconds before the next message
+                    await Task.Delay(2000, cancellationToken);
 
-            string intent = orchestrationPrediction.GetProperty("topIntent").ToString();
+                    //Send additional message after the apology
+                    await turnContext.SendActivityAsync(
+                        MessageFactory.Text("What else can I do for you?"), cancellationToken);
+                }
+                else
+                {
 
-
-            await turnContext.SendActivityAsync(MessageFactory.Text($"Recognized Intent: {intent}"), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text($"Recognized Intent: {topIntent}"), cancellationToken);
+                }
+            }
+            catch (RequestFailedException ex)
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text($"Sorry, there was an error processing your request:{ex.Message}"),
+                    cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                //Handle any other unexpected errors
+                await turnContext.SendActivityAsync(MessageFactory.Text($"An unexpected error occurred:{ex.Message}"),
+                    cancellationToken);
+            }
         }
+
+
 
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)

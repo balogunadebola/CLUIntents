@@ -60,3 +60,4 @@ C:\Users\adebo\source\repos\CLUIntentBot\CLUIntentBot\obj\Debug\net6.0\refint\CL
 C:\Users\adebo\source\repos\CLUIntentBot\CLUIntentBot\obj\Debug\net6.0\CLUIntentBot.pdb
 C:\Users\adebo\source\repos\CLUIntentBot\CLUIntentBot\obj\Debug\net6.0\CLUIntentBot.genruntimeconfig.cache
 C:\Users\adebo\source\repos\CLUIntentBot\CLUIntentBot\obj\Debug\net6.0\ref\CLUIntentBot.dll
+C:\Users\adebo\source\repos\CLUIntentBot\CLUIntentBot\obj\Debug\net6.0\CLUIntentBot.sourcelink.json
