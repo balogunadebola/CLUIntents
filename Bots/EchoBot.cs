@@ -84,7 +84,7 @@ namespace CLUIntentBot.Bots
                 if (topIntent.Equals("None", StringComparison.OrdinalIgnoreCase) || confidenceScore < confidenceThreshold)
                 {
                     await turnContext.SendActivityAsync(
-                        MessageFactory.Text("Sorry, I didn't quite get your question. Please try asking in a different way (Intent was none)."),
+                        MessageFactory.Text("Sorry, I didn't quite get your question. Please try asking in a different way  (Intent was none)."),
                         cancellationToken
                         );
                     //Add a delay of 2 seconds before the next message
