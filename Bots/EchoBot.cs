@@ -77,6 +77,25 @@ namespace CLUIntentBot.Bots
                         break;
                     }
                 }
+                //Extract entities
+                if (orchestrationPrediction.TryGetProperty("entities", out JsonElement entities) && entities.GetArrayLength() >0)
+                {
+                    List<string> entityNames = new List<string>();
+
+                    foreach (JsonElement entity in entities.EnumerateArray())
+                    {
+                        string entityName = entity.GetProperty("category").GetString();
+
+                        entityNames.Add(entityName);
+                    }
+                    string entitiesRecognized = string.Join(", ", entityNames);
+                    await turnContext.SendActivityAsync(MessageFactory.Text($"Recognized Entities:\n{entitiesRecognized}"), cancellationToken);
+
+                }
+                else
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text("No entities recognized."), cancellationToken);
+                }
                 //Confidence Threshold
                 double confidenceThreshold = 0.5;
 
